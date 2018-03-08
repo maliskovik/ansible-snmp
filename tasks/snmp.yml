@@ -1,0 +1,24 @@
+---
+
+- name: Install SNMP
+  apt:
+    state: present
+    name: "{{ item }}"
+  with_items: "{{ snmp_base_packages }}"
+  notify:
+    - Restart SNMPD
+
+- name: Configure snmpd
+  template:
+    src: snmpd.conf
+    dest: /etc/snmp/snmpd.conf
+  notify:
+    - Restart SNMPD
+
+- name: Open ports
+  ufw:
+    port: "161"
+    proto: udp
+    from_ip: "{{ item }}"
+    rule: allow
+  with_items: "{{ snmp_master_ips }}"
