@@ -14,6 +14,14 @@
   notify:
     - Restart SNMPD
 
+- name: Configure logging
+  lineinfile:
+    state: present
+    line: "SNMPDOPTS='-LS0-4d -Lf /dev/null -u Debian-snmp -g Debian-snmp -I -smux,mteTrigger,mteTriggerConf -p /run/snmpd.pid'"
+    path: /etc/default/snmpd
+    regexp: '^SNMPDOPTS='
+  notify:
+    - Restart SNMPD
 - name: Open ports
   ufw:
     port: "161"
