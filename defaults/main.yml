@@ -1,3 +1,4 @@
 ---
 snmp_master_ips:
   - "any"
+snmp_user: "Debian-snmp"

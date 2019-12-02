@@ -17,7 +17,7 @@
 - name: Configure logging
   lineinfile:
     state: present
-    line: "SNMPDOPTS='-LS0-4d -Lf /dev/null -u snmp -g snmp -I -smux,mteTrigger,mteTriggerConf -p /run/snmpd.pid'"
+    line: "SNMPDOPTS='-LS0-4d -Lf /dev/null -u {{ snmp_user }} -g {{ snmp_user }} -I -smux,mteTrigger,mteTriggerConf -p /run/snmpd.pid'"
     path: /etc/default/snmpd
     regexp: '^SNMPDOPTS='
   notify:
