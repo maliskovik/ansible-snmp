@@ -1,9 +1,18 @@
 ---
 
-- name: Install SNMP
+- name: Install SNMP - Ubuntu
   apt:
     state: present
     name: "{{ snmp_base_packages }}"
+  notify:
+    - Restart SNMPD
+  when: ansible_distribution == "Ubuntu"
+
+- name: Install SNMP - Centos
+  yum:
+    state: present
+    name: net-snmp
+  when: ansible_os_family == "RedHat"
   notify:
     - Restart SNMPD
 
@@ -14,7 +23,7 @@
   notify:
     - Restart SNMPD
 
-- name: Configure logging
+- name: Configure logging - Ubuntu
   lineinfile:
     state: present
     line: "SNMPDOPTS='-LS0-4d -Lf /dev/null -u {{ snmp_user }} -g {{ snmp_user }} -I -smux,mteTrigger,mteTriggerConf -p /run/snmpd.pid'"
@@ -22,6 +31,18 @@
     regexp: '^SNMPDOPTS='
   notify:
     - Restart SNMPD
+  when: ansible_distribution == "Ubuntu"
+
+- name: Configure logging - Centos
+  lineinfile:
+    state: present
+    line: "OPTIONS='-LS0-4d -Lf /dev/null I -smux,mteTrigger,mteTriggerConf -p /var/run/snmpd.pid'"
+    path: /etc/sysconfig/snmpd
+    regexp: '^OPTIONS=='
+  notify:
+    - Restart SNMPD
+  when: ansible_os_family == "RedHat"
+
 - name: Open ports
   ufw:
     port: "161"
