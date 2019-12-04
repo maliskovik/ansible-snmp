@@ -36,9 +36,9 @@
 - name: Configure logging - Centos
   lineinfile:
     state: present
-    line: "OPTIONS='-LS0-4d -Lf /dev/null I -smux,mteTrigger,mteTriggerConf -p /var/run/snmpd.pid'"
+    line: "OPTIONS='-LS0-4d -Lf /dev/null -I -smux,mteTrigger,mteTriggerConf -p /var/run/snmpd.pid'"
     path: /etc/sysconfig/snmpd
-    regexp: '^OPTIONS=='
+    regexp: '^OPTIONS='
   notify:
     - Restart SNMPD
   when: ansible_os_family == "RedHat"
