@@ -26,7 +26,7 @@
 - name: Configure logging - Ubuntu
   lineinfile:
     state: present
-    line: "SNMPDOPTS='-LS0-4d -Lf /dev/null -u {{ snmp_user }} -g {{ snmp_user }} -I -smux,mteTrigger,mteTriggerConf -p /run/snmpd.pid'"
+    line: "SNMPDOPTS='-LSwd -Lf /dev/null -u {{ snmp_user }} -g {{ snmp_user }} -I -smux,mteTrigger,mteTriggerConf -p /run/snmpd.pid'"
     path: /etc/default/snmpd
     regexp: '^SNMPDOPTS='
   notify:
@@ -36,7 +36,7 @@
 - name: Configure logging - Centos
   lineinfile:
     state: present
-    line: "OPTIONS='-LS0-4d -Lf /dev/null -I -smux,mteTrigger,mteTriggerConf -p /var/run/snmpd.pid'"
+    line: "OPTIONS='-LSwd -Lf /dev/null -I -smux,mteTrigger,mteTriggerConf -p /var/run/snmpd.pid'"
     path: /etc/sysconfig/snmpd
     regexp: '^OPTIONS='
   notify:
