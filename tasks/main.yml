@@ -1,2 +1,2 @@
 ---
-- include: snmp.yml
+- ansible.builtin.include_tasks: snmp.yml
